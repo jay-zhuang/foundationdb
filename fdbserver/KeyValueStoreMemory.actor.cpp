@@ -538,6 +538,7 @@ private:
 			*isZeroFilled = (data[data.size() - 1] == 0);
 		}
 		if (h->op != OpEncrypted || *zeroFillSize > 0 || *isZeroFilled) {
+			std::cout << "JJJ3: readOpData. " << data.toString() <<  std::endl;
 			return data;
 		}
 		state BlobCipherEncryptHeader cipherHeader = *(BlobCipherEncryptHeader*)data.begin();

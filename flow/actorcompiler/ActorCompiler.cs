@@ -398,7 +398,7 @@ namespace actorcompiler
 
             // The "State" class contains all state and user code, to make sure that state names are accessible to user code but
             // inherited members of Actor, Callback etc are not.
-            writer.WriteLine("// This generated class is to be used only via {0}()", actor.name);
+            writer.WriteLine("// This generated class JJJ1 is to be used only via {0}()", actor.name);
             WriteTemplate(writer, actorClassFormal);
             LineNumber(writer, actor.SourceLine);
             writer.WriteLine("class {0} {{", stateClassName);
@@ -415,7 +415,7 @@ namespace actorcompiler
             writer.WriteLine("};");
 
             // The final actor class mixes in the State class, the Actor base class and all callback classes
-            writer.WriteLine("// This generated class is to be used only via {0}()", actor.name);
+            writer.WriteLine("// This generated class JJJ2 is to be used only via {0}()", actor.name);
             WriteTemplate(writer);
             LineNumber(writer, actor.SourceLine);
 

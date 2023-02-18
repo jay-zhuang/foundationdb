@@ -5773,6 +5773,7 @@ ACTOR Future<Void> getKeyValuesStreamQ(StorageServer* data, GetKeyValuesStreamRe
 }
 
 ACTOR Future<Void> getKeyQ(StorageServer* data, GetKeyRequest req) {
+	std::cout << "JJJ6: getkeyq" << std::endl;
 	state Span span("SS:getKey"_loc, req.spanContext);
 	state int64_t resultSize = 0;
 
@@ -10954,7 +10955,10 @@ ACTOR Future<Void> serveGetValueRequests(StorageServer* self, FutureStream<GetVa
 			g_traceBatch.addEvent("GetValueDebug",
 			                      req.options.get().debugID.get().first(),
 			                      "storageServer.received"); //.detail("TaskID", g_network->getCurrentTask());
-
+		std::cout << "JJJ7: serveGetValueRequests" << req.key.toString() << std::endl;
+		if (req.key.toString() == "haha") {
+			std::cout << "JJJ78: " << std::endl;
+		}
 		if (SHORT_CIRCUT_ACTUAL_STORAGE && normalKeys.contains(req.key))
 			req.reply.send(GetValueReply());
 		else
@@ -10989,6 +10993,7 @@ ACTOR Future<Void> serveGetMappedKeyValuesRequests(StorageServer* self,
 ACTOR Future<Void> serveGetKeyValuesStreamRequests(StorageServer* self,
                                                    FutureStream<GetKeyValuesStreamRequest> getKeyValuesStream) {
 	loop {
+		std::cout << "JJJ5: Get Key" << std::endl;
 		GetKeyValuesStreamRequest req = waitNext(getKeyValuesStream);
 		// Warning: This code is executed at extremely high priority (TaskPriority::LoadBalancedEndpoint), so
 		// downgrade before doing real work
@@ -11000,6 +11005,7 @@ ACTOR Future<Void> serveGetKeyValuesStreamRequests(StorageServer* self,
 ACTOR Future<Void> serveGetKeyRequests(StorageServer* self, FutureStream<GetKeyRequest> getKey) {
 	getCurrentLineage()->modify(&TransactionLineage::operation) = TransactionLineage::Operation::GetKey;
 	loop {
+		std::cout << "JJJ4: Get Key" << std::endl;
 		GetKeyRequest req = waitNext(getKey);
 		// Warning: This code is executed at extremely high priority (TaskPriority::LoadBalancedEndpoint), so
 		// downgrade before doing real work

@@ -1197,13 +1197,13 @@ void printStatus(StatusObjectReader statusObj,
 						// Database available without issues
 						if (healthy) {
 							if (displayDatabaseAvailable) {
-								printf("The database is available.\n");
+								printf("JJJ0: The database is available.\n");
 							}
 						} else { // Database running but with issues
-							printf("The database is available, but has issues (type 'status' for more information).\n");
+							printf("JJJ1: The database is available, but has issues (type 'status' for more information).\n");
 						}
 					} catch (std::runtime_error&) {
-						printf("The database is available, but has issues (type 'status' for more information).\n");
+						printf("JJJ2: The database is available, but has issues (type 'status' for more information).\n");
 					}
 				}
 

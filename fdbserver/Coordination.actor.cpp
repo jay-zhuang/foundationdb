@@ -766,6 +766,7 @@ ACTOR Future<Void> coordinationServer(std::string dataFolder,
 	state ConfigTransactionInterface configTransactionInterface;
 	state ConfigFollowerInterface configFollowerInterface;
 	state Future<Void> configDatabaseServer = Never();
+	std::cout << "JJJ1: coordination server" << std::endl;
 	TraceEvent("CoordinationServer", myID)
 	    .detail("MyInterfaceAddr", myInterface.read.getEndpoint().getPrimaryAddress())
 	    .detail("Folder", dataFolder)
