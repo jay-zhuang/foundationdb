@@ -1912,23 +1912,40 @@ bool validateSimulationDataFiles(std::string const& dataFolder, bool isRestartin
 
 } // namespace
 
-ACTOR Future<Void> sayHello(Future<int> f, Future<std::string> f2, std::string name) {
+ACTOR Future<Void> sayHello(Future<std::string> f2, Future<int> f, std::string name) {
 	std::cout << "Before wait " << name << std::endl;
-	state int val = wait(f);
-	std::cout << "hello " << name << ": " << val << std::endl;
-	std::string s = wait(f2);
-	std::cout << "hi " << s << ":" << val << std::endl;
+	state int count = 0;
+	loop {
+		choose {
+		    when (int val = wait(f)) {
+		        std::cout << "hello number: " << val << std::endl;
+				count++;
+		    }
+            when (std::string val = wait(f2)) {
+				std::cout << "hello str: " << val << std::endl;
+				count++;
+				if (count > 2) {
+					break;
+				}
+            }
+		}
+	}
 	return Void();
 }
 
-int main(int argc, char* argv[]) {
+ACTOR Future<std::string> buildStr(Future<std::string> f, std::string name) {
+	std::string val = wait(f);
+	return "hi " + val + name;
+}
+
+int main3(int argc, char* argv[]) {
 	std::cout << "hi" << std::endl;
 	Promise<int> p;
 	Future<int> f = p.getFuture();
 	Promise<std::string> p2;
 	Future<std::string> f2 = p2.getFuture();
 
-	Future<Void> hi = sayHello(f, f2, "jay");
+	Future<Void> hi = sayHello(buildStr(f2, "jake"), f, "jay");
 	std::cout << "sleep: ";
 	for (int i = 0; i < 2; i++) {
 		std::this_thread::sleep_for(1s);
@@ -1937,9 +1954,13 @@ int main(int argc, char* argv[]) {
 	std::cout << std::endl;
 	p2.send("JJJ");
 	p.send(4);
+	for (int i = 0; i < 2; i++) {
+		std::this_thread::sleep_for(1s);
+		std::cout << ".";
+	}
 }
 
-int main2(int argc, char* argv[]) {
+int main(int argc, char* argv[]) {
 	// TODO: Remove later, this is just to force the statics to be initialized
 	// otherwise the unit test won't run
 #ifdef ENABLE_SAMPLING

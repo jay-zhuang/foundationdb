@@ -10955,7 +10955,7 @@ ACTOR Future<Void> serveGetValueRequests(StorageServer* self, FutureStream<GetVa
 			g_traceBatch.addEvent("GetValueDebug",
 			                      req.options.get().debugID.get().first(),
 			                      "storageServer.received"); //.detail("TaskID", g_network->getCurrentTask());
-		std::cout << "JJJ7: serveGetValueRequests" << req.key.toString() << std::endl;
+//		std::cout << "JJJ7: serveGetValueRequests" << req.key.toString() << std::endl;
 		if (req.key.toString() == "haha") {
 			std::cout << "JJJ78: " << std::endl;
 		}
